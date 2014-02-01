@@ -1,0 +1,35 @@
+{
+  "name": "peeps",
+  "version": "0.0.1",
+  "description": "Peep peeps! - a simple streaming REST API to access contact information.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha test",
+    "start": "node lib/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tvanier/peeps"
+  },
+  "keywords": [
+    "stream",
+    "REST",
+    "contact",
+    "ldap"
+  ],
+  "dependencies": {
+    "strata": ">=0.20",
+    "ldapjs": ">=0.7.0"
+  },
+  "devDependencies": {
+    "mocha": ">=1.17"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "author": "Thomas Vanier <thomas.vanier@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tvanier/peeps/issues"
+  }
+}

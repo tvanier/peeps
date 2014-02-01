@@ -1,0 +1,20 @@
+[
+  {
+    "screenName": "jfkennedy",
+    "displayName": "John F Kennnedy",
+    "email": "jfkennedy@test.com",
+    "phoneNumbers": {
+      "work": "1234",
+      "mobile": "4321"
+    }
+  },
+  {
+    "screenName": "bobama",
+    "displayName": "Barack Obama",
+    "email": "bobama@test.com",
+    "phoneNumbers": {
+      "work": "5678",
+      "mobile": "8765"
+    }
+  },
+]
