@@ -2,7 +2,7 @@
 
 A streaming REST API to access contact information, built with Strata http://stratajs.org
 peeps allows to access contact resources (such as a directory) via a simple REST API. Contact properties (name, email, address ...) are fully configurable. Some use cases:
-- predictive search by name
+- predictive search (by display name for example)
 - data synchronization
 
 peeps is 100% JavaScript, it supports LDAP sources for now, thanks to the awesome http://ldapjs.org
@@ -10,28 +10,33 @@ Tested with node 0.10 and a directory of more than 60K entries.
 
 ## API
 
-### Search by name
+### Retrieve a set of contacts
 
-**GET /peeps/set/name/:name?max=:max**
+**GET /peeps/set/:keyName/:key?max=:max**
 
-Search for contacts whose name *starts with* :name
-Typical use case: predictive search
+Search for contacts whose :keyName *starts with* :key. Typical use case: predictive search, for example  
+GET /peeps/set/displayName/Thomas
+GET /peeps/set/screenName/tva?max=10
+
+The length of the returned set can be limited to :max elements. If not specified, :max defaults to the maxSetSize global search parameter configured on the peeps node.
 
 Returns a set (JSON array) of unique contact objects.
 
 
-**GET /peeps/stream/name/:name?pageSize=:pageSize**
+**GET /peeps/stream/:keyName/:key?pageSize=:pageSize**
 
-Search for contacts whose name starts with :name
-Typical use case: data synchronization
+Search for contacts whose :keyName starts with :key. Typical use case: data synchronization, for example  
+GET /peeps/stream/email/a
 
-Returns a sequence of JSON contact objects. Not trivial to parse, I plan to try https://github.com/dscape/clarinet
+Returns a sequence of contiguous JSON contact objects like {contact1}{contact2}...{contactN}  
+Not trivial to parse, I plan to try https://github.com/dscape/clarinet
 
-### Search by key
+
+### Retrieve a map of contacts
 
 **POST /peeps/map/:keyName**
 
-Search for contacts whose specified keyName *matches* the one(s) passed as an array in the request body.
+Search for contacts whose specified keyName *matches* the one(s) passed as an array in the request body.  
 
 Example:
     curl -X POST http://localhost:8080/peeps/map/screenName -d "{ \"keys\": [\"tvanier\"] }" --header "Content-Type:application/json"
@@ -39,14 +44,23 @@ Example:
 
 ## Configuration
 
-The peeps sample server (lib/server.js) accepts a JSON file where the listening port can be specified:
+Currently peeps is configured via a single JSON file, which contains different sections.  
+The configuration can be passed to the peeps init function. Each contact source can be configured via a property of the global configuration object, see below an example with the ldap source.
+
+### Global search parameters
+
+The global search parameters are configured in the "search" property of the global configuration object.  
+The available search parameters are:
+- maxSetSize (Number): the maximum size of a returned set of contacts, default is 20
+
 ```
 {
-  port: 8088
+  ...
+  "search": {
+    "maxSetSize": 15
+  }
 }
 ```
-
-The configuration can be passed to the peeps init function. Each contact source can be configured via a property of the global configuration object, see below an example with the ldap source.
 
 ### LDAP source
 
@@ -54,7 +68,7 @@ An LDAP source is configured via an "ldap" property of the global configuration 
 
 ```
 {
-  "port": 8088,
+  ...
   "ldap": {
     "host": "myldap.com",
     "port": 389,
@@ -75,6 +89,18 @@ An LDAP source is configured via an "ldap" property of the global configuration 
           "mobile":"mobile"
       }
     }
+  }
+}
+```
+
+## Sample server 
+The peeps sample server (lib/server.js) accepts a "server" configuration object where the listening port can be specified:
+
+```
+{
+  ...
+  "server": {
+    port: 8088
   }
 }
 ```
