@@ -1,13 +1,13 @@
 # peeps
 [![Build Status](https://travis-ci.org/tvanier/peeps.png?branch=master)](https://travis-ci.org/tvanier/peeps)
 
-A streaming REST API to access contact information, built with Strata http://stratajs.org  
+A streaming REST API to access contact information, built with Koa http://koajs.org  
 peeps allows to access contact resources (such as a directory) via a simple REST API. Contact properties (name, email, address ...) are fully configurable. Some use cases:
 - predictive search (by display name for example)
 - data synchronization
 
 peeps is 100% JavaScript, it supports LDAP sources for now, thanks to the awesome http://ldapjs.org  
-Tested with node 0.10 and a directory of more than 60K entries.
+Tested with node >= 0.11.13 and a directory of more than 60K entries.
 
 ## API
 
@@ -111,5 +111,5 @@ The peeps sample server (lib/server.js) accepts a "server" configuration object 
 
 The sample server can be started with
 ```
-node lib/server.js myconfig.json
+node --harmony lib/server.js myconfig.json
 ```
