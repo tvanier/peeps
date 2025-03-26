@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "co-body": "0.0.2",
-    "koa": "^0.8.1",
+    "koa": "^0.21.2",
     "koa-cors": "0.0.13",
     "koa-router": "^3.1.4",
     "ldapjs": "^0.7.1"
